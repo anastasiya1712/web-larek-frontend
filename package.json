@@ -1,5 +1,5 @@
 {
-  "name": "my-webpack-project",
+  "name": "web-larek",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -43,5 +43,6 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier ./src --write",
     "deploy": "gh-pages -d dist"
-  }
+  },
+  "author": ""
 }
