@@ -8,7 +8,6 @@ export interface IWebLarekAPI {
 }
 
 export class WebLarekAPI extends Api implements IWebLarekAPI {
-
     constructor(cdn: string, baseUrl: string, options?: RequestInit) {
         super(baseUrl, options);
     }
