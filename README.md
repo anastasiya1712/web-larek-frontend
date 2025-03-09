@@ -171,9 +171,9 @@ class WebLarekAPI extends Api implements IWebLarekAPI {
         );
     }
 
-    order(order: IOrder): Promise<IOrderResult> {
+    order(order: IOrder): Promise<IOrderResponse> {
         return this.post('/order', order).then(
-            (data: IOrderResult) => data
+            (data: IOrderResponse) => data
         );
     }
 }
@@ -211,7 +211,7 @@ interface IOrder extends IOrderForm {
 - basket:open - открытие корзины
 - basket:close - закрытие корзины
 - order:changed - изменилось одно из полей формы заказа
-- order:submit - отправить форму заказа
+- order:submited - отправить форму заказа
 - modal:open - блокирует прокрутку страницы если открыто модальное окно
 - modal:close - разблокирует прокрутку страницы, когда модальное окно закрывается
 - formErrors:changed - имзенилось состояние валидации формы

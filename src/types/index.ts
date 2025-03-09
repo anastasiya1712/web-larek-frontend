@@ -20,11 +20,25 @@ export interface IOrderForm {
 
 export interface IOrder extends IOrderForm {
     total: number;
-    items: string[]
+    items: IBasketItem[]
+}
+
+
+export interface IOrderResponse {
+    id: string;
 }
 
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
-export interface IOrderResult {
-    id: string;
+export enum Events {
+    CATALOG_CHANGED = "catalog:changed",
+    BASKET_UPDATE = "basket:update",
+    BASKET_CLEARED = "basket:cleared",
+    BASKET_OPEN = "basket:open",
+    BASKET_CLOSE = "basket:close",
+    ORDER_CHANGED = "order:changed",
+    ORDER_SUBMIT = "order:submit",
+    MODAL_OPEN = "modal:open",
+    MODAL_CLOSE = "modal:close",
+    FORM_ERRORS = "formErrors:changed"
 }
