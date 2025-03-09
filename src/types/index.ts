@@ -9,14 +9,6 @@ export interface IProduct {
 
 export type IBasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
 
-export interface IAppState {
-    catalog: IProduct[];
-    basket: string[];
-    preview: string | null;
-    order: IOrder | null;
-    loading: boolean;
-}
-
 export type PaymentMethod = 'Онлайн'| 'При получении';
 
 export interface IOrderForm {

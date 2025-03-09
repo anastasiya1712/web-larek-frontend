@@ -116,10 +116,31 @@ abstract class Component<T> {
 }
 ```
 
+## Базовый класс `Model`
+Абстрактный класс, от которого наследуются все модели, в данном случае класс AppData
+```ts
+abstract class Model<T> {
+    constructor(data: Partial<T>, protected events: IEvents) {
+        Object.assign(this, data);
+    }
+
+    emitChanges(event: string, payload?: object) {
+        this.events.emit(event, payload ?? {});
+    }
+}
+```
+
 ## Класс `AppData`
 Класс, который управляет данными приложения
 ```ts
-
+class AppData extends Model<IAppState> {
+    catalog: IProduct[] = [];
+    basket: string[] = [];
+    preview: string | null = null;
+    order: IOrder | null = null;
+    loading: boolean = false;
+    formErrors: FormErrors = {};
+}
 ```
 
 ## Класс `WebLarekAPI`
@@ -181,16 +202,13 @@ interface IOrder extends IOrderForm {
 
 # Список событий
 
-- products:changed - изменились элементы каталога
-- product:select - открыть карточку продукта
-- order:open - начать оформление заказа
-- order:changed - изменилось одно из полей формы заказа
-- order:submit - отправить форму заказа
-- basket:add - добавление товара в корзину
-- basket:remove - удаление товара из корзины
-- basket:clear - очистить корзину после оформления заказа
+- catalog:changed - изменились элементы каталога
+- basket:update - изменения в корзине (добавление или удаление)
+- basket:cleared - очистка корзины
 - basket:open - открытие корзины
 - basket:close - закрытие корзины
+- order:changed - изменилось одно из полей формы заказа
+- order:submit - отправить форму заказа
 - modal:open - блокирует прокрутку страницы если открыто модальное окно
 - modal:close - разблокирует прокрутку страницы, когда модальное окно закрывается
 - formErrors:changed - имзенилось состояние валидации формы
