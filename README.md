@@ -74,7 +74,7 @@ View отвечает за отображение интерфейса и обн
 # Классы проекта
 
 ## Базовый класс `Component`
-Абстрактный класс, от которого наследуются все компоненты
+Абстрактный класс, от которого наследуются все компоненты слоя View
 ```ts
 abstract class Component<T> {
     protected constructor(protected readonly container: HTMLElement) { }
