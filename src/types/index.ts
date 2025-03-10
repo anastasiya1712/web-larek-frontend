@@ -29,7 +29,7 @@ export interface IOrderResponse {
     total: number;
 }
 
-export type FormErrors = Partial<Record<keyof IOrder, string>>;
+export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
 export enum Events {
     CATALOG_CHANGED = "catalog:changed",
