@@ -9,7 +9,7 @@ export interface IProduct {
 
 export type IBasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
 
-export type PaymentMethod = 'Онлайн'| 'При получении';
+export type PaymentMethod = 'online'| 'card';
 
 export interface IOrderForm {
     payment: PaymentMethod;
