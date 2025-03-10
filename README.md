@@ -104,6 +104,55 @@ View отвечает за отображение интерфейса и обн
     emitChanges(event: string, payload?: object) // Генерирует событие с указанным именем и дополнительными данными
 ```
 
+
+
+## class `Modal`
+Класс, является наследником класса `Component`. Предоставляет методы для создания и работы с модальным окном.
+
+```
+Свойства:
+    protected closeButton: HTMLButtonElement // Элемент кнопки для закрытия модального окна
+    protected content: HTMLElement // Контент модального окна
+
+Конструктор:
+    constructor(container: HTMLElement, protected events: IEvents)
+
+Методы:
+    open() // Открывает модальное окно
+    close() // Закрывает модальное окно
+    render(data: IModelData) // Возращает DOM-элемент модального окна
+```
+
+## class `Basket`
+Класс, является наследником класса `Component`. Предостевляет методы для добавления элементов в корзину.
+
+```
+Свойства:
+    protected list: HTMLElement // DOM-элемент списка товаров
+    protected total: HTMLElement // DOM-элемент количества товаров
+    protected button: HTMLElement // DOM-элемент кнопки совершения заказа
+
+Конструктор:
+    constructor(container: HTMLElement, protected events: EventEmitter)
+
+Методы:
+    set items(items: HTMLElement[]) // Добавление элементов в корзину
+    set selected(items: string[]) 
+    set total(total: number)
+```
+
+## class `Form`
+
+## class `Page`
+
+## class `Success`
+
+## class `Card`
+
+## class `Order`
+
+## class `Contacts`
+
 ## class `AppData`
 Класс `AppData` наследник базового класса `Model<T>`, отвечает за хранение и управление данными, необходимыми для функционирования приложения. Он обрабатывает данные каталога, корзины, оформления заказа и управляет состоянием загрузки.
 
