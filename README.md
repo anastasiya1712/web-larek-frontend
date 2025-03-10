@@ -73,10 +73,25 @@ View отвечает за отображение интерфейса и обн
 
 # Классы проекта
 
-## Базовый класс `Component`
-Абстрактный класс, от которого наследуются все компоненты слоя View
-```ts
-abstract class Component<T> 
+## abstract class Component<T> 
+Абстрактный класс, от которого наследуются все компоненты слоя View.
+Дженерик принимает тип, описывающий данные, которые будут передаваться в метод render для отображения этих данных в дочернем компоненте через сеттеры.
+
+```
+Свойства:
+    container: HTMLElement // Корневой DOM-элемент
+
+Конструктор:
+    protected constructor(protected readonly container: HTMLElement)
+
+Методы:
+    toggleClass(element: HTMLElement, className: string, force?: boolean) // Добавляет/удаляет класс в html элемент
+    protected setText(element: HTMLElement, value: unknown) // Устанавливает текстовое содержисое элемента
+    protected setImage(element: HTMLImageElement, src: string, alt?: string) // Устанfвливает картинку (src)
+    setDisabled(element: HTMLElement, state: boolean) // Меняет статус блокировки
+    protected setHidden(element: HTMLElement) // Скрывает элемент
+    protected setVisible(element: HTMLElement) // Показывает элемент
+    render(data?: Partial<T>): HTMLElement // Возвращает корневой DOM-элемент 
 ```
 
 ## Базовый класс `Model`
