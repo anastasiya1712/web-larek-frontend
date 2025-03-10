@@ -76,132 +76,34 @@ View отвечает за отображение интерфейса и обн
 ## Базовый класс `Component`
 Абстрактный класс, от которого наследуются все компоненты слоя View
 ```ts
-abstract class Component<T> {
-    protected constructor(protected readonly container: HTMLElement) { }
-
-    toggleClass(element: HTMLElement, className: string, force?: boolean) {
-        element.classList.toggle(className, force);
-    }
-
-    protected setText(element: HTMLElement, value: unknown) {
-        if (element) {
-            element.textContent = String(value);
-        }
-    }
-
-    setDisabled(element: HTMLElement, state: boolean) {
-        if (element) {
-            if (state) element.setAttribute('disabled', 'disabled');
-            else element.removeAttribute('disabled');
-        }
-    }
-
-    protected setHidden(element: HTMLElement) {
-        element.style.display = 'none';
-    }
-
-    protected setVisible(element: HTMLElement) {
-        element.style.removeProperty('display');
-    }
-
-    protected setImage(element: HTMLImageElement, src: string, alt?: string) {
-        if (element) {
-            element.src = src;
-            if (alt) {
-                element.alt = alt;
-            }
-        }
-    }
-
-    render(data?: Partial<T>): HTMLElement {
-        Object.assign(this as object, data ?? {});
-        return this.container;
-    }
-}
+abstract class Component<T> 
 ```
 
 ## Базовый класс `Model`
 Абстрактный класс, от которого наследуются все модели, в данном случае класс AppData
 ```ts
-abstract class Model<T> {
-    constructor(data: Partial<T>, protected events: IEvents) {
-        Object.assign(this, data);
-    }
-
-    emitChanges(event: string, payload?: object) {
-        this.events.emit(event, payload ?? {});
-    }
-}
+abstract class Model<T> 
 ```
 
 ## Класс `AppData`
 Класс AppData отвечает за хранение и управление данными, необходимыми для функционирования приложения. Он обрабатывает данные каталога, корзины, оформления заказа и управляет состоянием загрузки.
 ```ts
-class AppData extends Model<IAppState> {
-    catalog: IProduct[] = [];
-    basket: string[] = [];
-    preview: string | null = null;
-    order: IOrder | null = null;
-    loading: boolean = false;
-    formErrors: FormErrors = {};
-}
+class AppData extends Model<IAppState>
 ```
 
 ## Класс `WebLarekAPI`
 Класс для работы с API
 ```ts
-class WebLarekAPI extends Api implements IWebLarekAPI {
-    constructor(cdn: string, baseUrl: string, options?: RequestInit) {
-        super(baseUrl, options);
-    }
-
-    getProducts(): Promise<IProduct[]> {
-        return this.get('/product').then((data: ApiListResponse<IProduct>) =>
-            data.items.map((item) => ({
-                ...item
-            }))
-        );
-    }
-
-    getProductById(id: string): Promise<IProduct> {
-        return this.get(`/product/${id}`).then(
-            (item: IProduct) => ({
-                ...item
-            })
-        );
-    }
-
-    order(order: IOrder): Promise<IOrderResponse> {
-        return this.post('/order', order).then(
-            (data: IOrderResponse) => data
-        );
-    }
-}
+class WebLarekAPI extends Api implements IWebLarekAPI 
 ```
 
 
 ## Типы данных
 ```ts
-interface IProduct {
-    id: string;
-    description: string;
-    image: string;
-    title: string;
-    category: string;
-    price: number | null;
-}
-
-interface IOrderForm {
-    payment: PaymentMethod;
-    email: string;
-    phone: string;
-    address: string;
-}
-
-interface IOrder extends IOrderForm {
-    total: number;
-    items: string[]
-}
+interface IProduct
+```
+```ts
+interface IOrder  
 ```
 
 # Список событий
