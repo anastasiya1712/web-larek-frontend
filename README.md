@@ -94,10 +94,17 @@ View отвечает за отображение интерфейса и обн
     render(data?: Partial<T>): HTMLElement // Возвращает корневой DOM-элемент 
 ```
 
-## Базовый класс `Model`
-Абстрактный класс, от которого наследуются все модели, в данном случае класс AppData
-```ts
-abstract class Model<T> 
+## abstract class `Model<T>`
+Абстрактный класс, от которого наследуются все компоненты слоя Model. 
+Дженерик принимает тип, 
+
+```
+Свойства:
+    events: IEvents // 
+Конструктор:
+    constructor(data Partial<T>, protected events: IEvents)
+Методы:
+    emitChanges(event: string, payload?: object) // 
 ```
 
 ## Класс `AppData`
