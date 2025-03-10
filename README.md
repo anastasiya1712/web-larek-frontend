@@ -96,15 +96,15 @@ View отвечает за отображение интерфейса и обн
 
 ## abstract class `Model<T>`
 Абстрактный класс, от которого наследуются все компоненты слоя Model. 
-Дженерик принимает тип, 
+Дженерик принимает тип, описывающий начальные данные, они записываются в экземпляр модели. 
 
 ```
 Свойства:
-    events: IEvents // 
+    events: IEvents // Механизм управления событиями
 Конструктор:
     constructor(data Partial<T>, protected events: IEvents)
 Методы:
-    emitChanges(event: string, payload?: object) // 
+    emitChanges(event: string, payload?: object) // Генерирует событие с указанным именем и дополнительными данными
 ```
 
 ## Класс `AppData`
