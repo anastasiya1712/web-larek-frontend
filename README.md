@@ -142,16 +142,104 @@ View отвечает за отображение интерфейса и обн
 ```
 
 ## class `Form`
+Класс, наследуемый от `Component`, представляет форму ввода данных. Позволяет управлять состоянием формы, валидацией и отправкой данных.
+
+```
+Свойства:
+    protected _submit: HTMLButtonElement // Кнопка отправки формы
+    protected _errors: HTMLElement // Элемент для отображения ошибок
+
+Конструктор:
+    constructor(container: HTMLFormElement, protected events: IEvents)
+
+Методы:
+    protected onInputChange(field: keyof T, value: string) // Вызывает событие изменения поля формы
+    set valid(value: boolean) // Устанавливает статус валидности формы
+    set errors(value: string) // Устанавливает текст ошибок в форме
+    render(state: Partial<T> & IFormState): HTMLElement // Обновляет состояние формы и возвращает ее DOM-элемент
+```
 
 ## class `Page`
+Класс, наследуемый от `Component`, представляет страницу и управляет ее отрисовкой.
+
+```
+Свойства:
+    protected header: HTMLElement // DOM-элемент шапки страницы
+    protected content: HTMLElement // DOM-элемент контента страницы
+
+Конструктор:
+    constructor(container: HTMLElement, protected events: IEvents)
+
+Методы:
+    render(data?: Partial<T>): HTMLElement // Отрисовывает содержимое страницы
+```
 
 ## class `Success`
+Класс, наследуемый от `Component`, представляет экран успешного завершения заказа или действия.
+
+```
+Свойства:
+    protected _close: HTMLElement // Кнопка закрытия
+
+Конструктор:
+    constructor(container: HTMLElement, actions: ISuccessActions)
+
+Методы:
+    // Нет дополнительных методов, взаимодействие происходит через переданный обработчик на закрытие
+```
 
 ## class `Card`
+Класс, наследуемый от Component, представляет карточку товара в каталоге.
+
+```
+Свойства:
+    protected image: HTMLImageElement // Элемент изображения товара
+    protected title: HTMLElement // Элемент заголовка товара
+    protected price: HTMLElement // Элемент цены товара
+    protected button: HTMLButtonElement // Кнопка добавления в корзину
+
+Конструктор:
+    constructor(container: HTMLElement, protected events: IEvents)
+
+Методы:
+    set product(data: IProduct) // Устанавливает данные товара 
+```
+
 
 ## class `Order`
+Класс, наследуемый от `Component`, представляет форму оформления заказа.
+
+```
+Свойства:
+    protected form: HTMLFormElement // Форма оформления заказа
+    protected submitButton: HTMLButtonElement // Кнопка подтверждения заказа
+
+Конструктор:
+    constructor(container: HTMLElement, protected events: IEvents)
+
+Методы:
+    set valid(value: boolean) // Устанавливает статус валидации формы
+    set errors(value: string) // Отображает ошибки формы
+    render(data?: Partial<T>): HTMLElement // Обновляет состояние формы и возвращает DOM-элемент
+
+```
 
 ## class `Contacts`
+Класс, наследуемый от `Component`, представляет блок с контактной информацией.
+
+```
+Свойства:
+    protected phone: HTMLElement // DOM-элемент с номером телефона
+    protected email: HTMLElement // DOM-элемент с email
+
+Конструктор:
+    constructor(container: HTMLElement)
+
+Методы:
+    set phone(value: string) // Устанавливает номер телефона
+    set email(value: string) // Устанавливает email
+```
+
 
 ## class `AppData`
 Класс `AppData` наследник базового класса `Model<T>`, отвечает за хранение и управление данными, необходимыми для функционирования приложения. Он обрабатывает данные каталога, корзины, оформления заказа и управляет состоянием загрузки.
