@@ -202,7 +202,6 @@ formErrors: FormErrors = {}; // ошибки валидации
 constructor(events: IEvents); // принимает экземпляр обработчика событий
 ```
 
-```
 Методы: 
 ```
 addToBasket(item: IProduct) // добавить элемент товара в корзину
