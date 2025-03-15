@@ -23,10 +23,24 @@ export interface IOrder extends IOrderForm {
     items: IBasketItem[]
 }
 
-
 export interface IOrderResponse {
     id: string;
     total: number;
+}
+
+export interface IAppState {
+    catalog: IProduct[];
+    basket: IProduct[];
+    preview: string | null;
+    order: IOrder | null;
+    loading: boolean;
+    formErrors: FormErrors;
+}
+
+export interface IWebLarekAPI {
+    getProducts(): Promise<IProduct[]>; 
+    getProductById(id: string): Promise<IProduct>; 
+    order(order: IOrder): Promise<IOrderResponse> 
 }
 
 export type FormErrors = Partial<Record<keyof IOrderForm, string>>;

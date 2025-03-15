@@ -1,11 +1,5 @@
 import { Api, ApiListResponse } from './base/api';
-import {IOrder, IOrderResponse, IProduct} from "../types";
-
-export interface IWebLarekAPI {
-    getProducts(): Promise<IProduct[]>; 
-    getProductById(id: string): Promise<IProduct>; 
-    order(order: IOrder): Promise<IOrderResponse> 
-}
+import {IOrder, IOrderResponse, IProduct, IWebLarekAPI} from "../types";
 
 export class WebLarekAPI extends Api implements IWebLarekAPI {
     constructor(cdn: string, baseUrl: string, options?: RequestInit) {
