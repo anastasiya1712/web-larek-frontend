@@ -192,6 +192,12 @@ preview: string | null = null; // предпросмотр
 order: IOrder | null = null; // заказ
 loading: boolean = false; // загрузка 
 formErrors: FormErrors = {}; // ошибки валидации
+
+Конструктор:
+```
+constructor(events: IEvents); // принимает экземпляр обработчика событий
+```
+
 ```
 Методы: 
 ```
