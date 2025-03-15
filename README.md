@@ -167,18 +167,21 @@ post(uri: string, data: object, method: ApiPostMethods = 'POST') // отправ
 ## class `WebLarekAPI`
 Класс для работы с API. Наследуется от класа Api
 
-```
 Свойства:
-    baseUrl: string // базовый url сервера
-    options: RequestInit // options запроса
-
+```
+baseUrl: string // базовый url сервера
+options: RequestInit // options запроса
+```
 Конструктор:
-    constructor(cdn: string, baseUrl: string, options?: RequestInit)
+```
+constructor(cdn: string, baseUrl: string, options?: RequestInit)
+```
 
 Методы:
-    getProducts() // получение всего списка товаров с сервера
-    getProductById(id: string) // получение товара по id с сервера
-    order(order: IOrder) // отправляет запрос на сервер с информацией о заказе и получает ответ
+```
+getProducts() // получение всего списка товаров с сервера
+getProductById(id: string) // получение товара по id с сервера
+order(order: IOrder) // отправляет запрос на сервер с информацией о заказе и получает ответ
 ```
 
 ## class `AppData`
@@ -192,6 +195,7 @@ preview: string | null = null; // предпросмотр
 order: IOrder | null = null; // заказ
 loading: boolean = false; // загрузка 
 formErrors: FormErrors = {}; // ошибки валидации
+```
 
 Конструктор:
 ```
