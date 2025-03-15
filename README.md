@@ -68,9 +68,9 @@ View отвечает за отображение интерфейса и обн
 - подписывается на события
 - обрабатывает действия пользователя
 
-# Классы проекта
+# Базовые классы
 
-## class EventEmitter
+## class `EventEmitter`
 Брокер событий, обеспечивает работу событий, его методы позволяют устанавливать и снимать обработчики на определеныые события, вызывать обработчиков при возникновении события.
 
 
@@ -98,21 +98,25 @@ trigger(eventName: string, context?: Partial<T>) // создает коллбе�
 Абстрактный класс, от которого наследуются все компоненты слоя View.
 Дженерик принимает тип, описывающий данные, которые будут передаваться в метод `render` для отображения этих данных в дочернем компоненте через сеттеры.
 
-```
 Свойства:
-    container: HTMLElement // Корневой DOM-элемент
+```
+container: HTMLElement // Корневой DOM-элемент
+```
 
 Конструктор:
-    protected constructor(protected readonly container: HTMLElement)
+```
+protected constructor(protected readonly container: HTMLElement) // принимает параметр HTMLElement. Конструктор имеет уровень защиты protected, это значит, что он может быть вызван только дочерними элементами
+```
 
 Методы:
-    toggleClass(element: HTMLElement, className: string, force?: boolean) // Добавляет/удаляет класс в html элемент
-    protected setText(element: HTMLElement, value: unknown) // Устанавливает текстовое содержисое элемента
-    protected setImage(element: HTMLImageElement, src: string, alt?: string) // Устанfвливает картинку (src)
-    setDisabled(element: HTMLElement, state: boolean) // Меняет статус блокировки
-    protected setHidden(element: HTMLElement) // Скрывает элемент
-    protected setVisible(element: HTMLElement) // Показывает элемент
-    render(data?: Partial<T>): HTMLElement // Возвращает корневой DOM-элемент 
+```
+toggleClass(element: HTMLElement, className: string, force?: boolean) // переключает класс в element
+protected setText(element: HTMLElement, value: unknown) // устанавливает текстовое содержимое элемента
+setDisabled(element: HTMLElement, state: boolean) // меняет статус блокировки
+protected setHidden(element: HTMLElement) // скрывает элемент
+protected setVisible(element: HTMLElement) // показывает элемент
+protected setImage(element: HTMLImageElement, src: string, alt?: string) // устанавливает src и alt для element
+render(data?: Partial<T>): HTMLElement // возвращает корневой DOM-элемент 
 ```
 
 ## abstract class `Model<T>`
