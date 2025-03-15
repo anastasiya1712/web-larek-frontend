@@ -184,17 +184,26 @@ post(uri: string, data: object, method: ApiPostMethods = 'POST') // отправ
 ## class `AppData`
 Класс `AppData` наследник базового класса `Model<T>`, отвечает за хранение и управление данными, необходимыми для функционирования приложения. Он обрабатывает данные каталога, корзины, оформления заказа и управляет состоянием загрузки.
 
+Свойства:
+```
+catalog: IProduct[] = []; // элементы каталога
+basket: IProduct[] = []; // элементы корзины
+preview: string | null = null; // предпросмотр
+order: IOrder | null = null; // заказ
+loading: boolean = false; // загрузка 
+formErrors: FormErrors = {}; // ошибки валидации
+```
 Методы: 
 ```
-addToBasket //
-removeFromBasket //
-updateBasket //
-clearBasket //
-setForm //
-setPreview //
-setCatalog //
-validateOrder //
-getTotalResult //
+addToBasket(item: IProduct) // добавить элемент товара в корзину
+removeFromBasket(item: IProduct) // удалить элемент товара из корзины
+updateBasket() // обновление корзины
+clearBasket() // очистка корзины
+setForm(field: IOrder, value: string) // установить данные для формы
+setPreview(item: IProduct) // предпросмотр элемента товара
+setCatalog(items: IProduct[]) // установить каталог товаров
+validateOrder() // проверка валидности формы заказа
+getTotalResult() // получение суммы заказа
 ```
 
 ## class `Modal`
