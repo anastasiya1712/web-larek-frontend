@@ -76,22 +76,22 @@ View отвечает за отображение интерфейса и обн
 
 Свойства:
 ```
-    _events: Map<EventName, Set<Subscriber>>; // список событий и их обработчики
+_events: Map<EventName, Set<Subscriber>>; // список событий и их обработчики
 ```
 
 Конструктор:
 ```
-    constructor() // конструктор инициализирует пустым списком new Map<EventName, Set<Subscriber>>()
+constructor() // конструктор инициализирует пустым списком new Map<EventName, Set<Subscriber>>()
 ```
 
 Методы:
 ```
-    on(eventName: EventName, callback: (event: T) => void) // подписка на событие
-    off(eventName: EventName, callback: Subscriber) // отписка от события
-    emit(eventName: string, data?: T) // уведомление подписчиков о наступлении события
-    onAll(callback: (event: EmitterEvent) => void) // подписка на все события
-    offAll() // сброс всех подписчиков
-    trigger(eventName: string, context?: Partial<T>) // создает коллбек триггер, генерация события с заданными аргументами
+on(eventName: EventName, callback: (event: T) => void) // подписка на событие
+off(eventName: EventName, callback: Subscriber) // отписка от события
+emit(eventName: string, data?: T) // уведомление подписчиков о наступлении события
+onAll(callback: (event: EmitterEvent) => void) // подписка на все события
+offAll() // сброс всех подписчиков
+trigger(eventName: string, context?: Partial<T>) // создает коллбек триггер, генерация события с заданными аргументами
 ```
 
 ## abstract class `Component<T>`
