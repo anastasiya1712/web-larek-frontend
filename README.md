@@ -164,6 +164,23 @@ post(uri: string, data: object, method: ApiPostMethods = 'POST') // отправ
 
 # Основные компоненты
 
+## class `WebLarekAPI`
+Класс для работы с API. Наследуется от класа Api
+
+```
+Свойства:
+    baseUrl: string // базовый url сервера
+    options: RequestInit // options запроса
+
+Конструктор:
+    constructor(cdn: string, baseUrl: string, options?: RequestInit)
+
+Методы:
+    getProducts() // получение всего списка товаров с сервера
+    getProductById(id: string) // получение товара по id с сервера
+    order(order: IOrder) // отправляет запрос на сервер с информацией о заказе и получает ответ
+```
+
 ## class `Modal`
 Класс, является наследником класса `Component`. Предоставляет методы для создания и работы с модальным окном.
 
@@ -302,24 +319,7 @@ post(uri: string, data: object, method: ApiPostMethods = 'POST') // отправ
 ## class `AppData`
 Класс `AppData` наследник базового класса `Model<T>`, отвечает за хранение и управление данными, необходимыми для функционирования приложения. Он обрабатывает данные каталога, корзины, оформления заказа и управляет состоянием загрузки.
 
-## class `WebLarekAPI`
-Класс для работы с API. 
-
-```
-Свойства:
-    baseUrl: string // Базовый url сервера
-    options: RequestInit // options запроса
-
-Конструктор:
-    constructor(cdn: string, baseUrl: string, options?: RequestInit)
-
-Методы:
-    getProducts() // Получение всего списка товаров с сервера
-    getProductById(id: string) // Получение товара по id с сервера
-    order(order: IOrder) // Отправляет запрос на сервер с информацией о заказе
-```
-
-## Типы данных
+# Типы данных
 ```ts
 interface IProduct
 ```
