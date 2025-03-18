@@ -20,7 +20,7 @@ export interface IOrderForm {
 
 export interface IOrder extends IOrderForm {
     total: number;
-    items: IBasketItem[]
+    items: string[]
 }
 
 export interface IOrderResponse {
