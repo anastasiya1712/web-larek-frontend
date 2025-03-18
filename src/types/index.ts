@@ -47,6 +47,7 @@ export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
 export enum Events {
     CATALOG_CHANGED = "catalog:changed",
+    CARD_SELECT = "card:select",
     BASKET_UPDATE = "basket:update",
     BASKET_CLEARED = "basket:cleared",
     BASKET_OPEN = "basket:open",
