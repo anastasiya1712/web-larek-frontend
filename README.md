@@ -180,7 +180,7 @@ constructor(cdn: string, baseUrl: string, options?: RequestInit)
 Методы:
 ```
 getProducts() // получение всего списка товаров с сервера
-getProductById(id: string) // получение товара по id с сервера
+getProductsById(id: string) // получение товара по id с сервера
 order(order: IOrder) // отправляет запрос на сервер с информацией о заказе и получает ответ
 ```
 
@@ -189,12 +189,9 @@ order(order: IOrder) // отправляет запрос на сервер с �
 
 Свойства:
 ```
-catalog: IProduct[] = []; // элементы каталога
-basket: IProduct[] = []; // элементы корзины
-preview: string | null = null; // предпросмотр
-order: IOrder | null = null; // заказ
-loading: boolean = false; // загрузка 
-formErrors: FormErrors = {}; // ошибки валидации
+basket: string[] - массив идентификаторов товаров, добавленных в корзину
+products: IProduct[] - массив товаров
+order: IOrder - объект с данными заказа
 ```
 
 Конструктор:
@@ -204,15 +201,10 @@ constructor(events: IEvents); // принимает экземпляр обра�
 
 Методы: 
 ```
-addToBasket(item: IProduct) // добавить элемент товара в корзину
-removeFromBasket(item: IProduct) // удалить элемент товара из корзины
-updateBasket() // обновление корзины
-clearBasket() // очистка корзины
-setForm(field: IOrder, value: string) // установить данные для формы
-setPreview(item: IProduct) // предпросмотр элемента товара
-setCatalog(items: IProduct[]) // установить каталог товаров
-validateOrder() // проверка валидности формы заказа
-getTotalResult() // получение суммы заказа
+setProducts(products: IProduct[]): void - устанавливает каталог товаров и генерирует событие
+getAddedProducts(): IProduct[] - возвращает массив товаров, добавленных в корзину, на основе идентификаторов из basket
+getTotal(): number - рассчитывает и возвращает общую стоимость товаров в корзине
+getCountOfItems(): number - возвращает количество товаров в корзине
 ```
 
 ## class `Modal`
@@ -254,8 +246,8 @@ constructor(container: HTMLElement, protected events: EventEmitter)
 Методы:
 ```    
 set items(items: HTMLElement[]) // добавление элементов в корзину
-set selected(items: string[]) // устанавливает блокировку/разблок ровку оформления товара
 set total(total: number) // устанавливает общую стоимость оформления в корзине
+setButtonDisabled(state: boolean) // меняет состояние кнопки
 ```
 
 ## class `Form`
@@ -275,8 +267,6 @@ constructor(container: HTMLFormElement, protected events: IEvents)
 
 Методы:
 ```
-protected onInputChange(field: keyof T, value: string) // вызывает событие изменения поля формы
-set valid(value: boolean) // устанавливает статус валидности формы
 set errors(value: string) // устанавливает текст ошибок в форме
 render(state: Partial<T> & IFormState): HTMLElement // обновляет состояние формы и возвращает ее DOM-элемент
 ```
@@ -286,6 +276,11 @@ render(state: Partial<T> & IFormState): HTMLElement // обновляет сос
 
 Свойства:
 ```
+protected _counter: HTMLElement; // DOM-элемент счётчика товаров в корзине
+protected _catalog: HTMLElement; // DOM-элемент списка товаров
+protected _wrapper: HTMLElement; // DOM-элемент обертки корзины
+protected _basket: HTMLElement; // DOM-элемент корзины
+
 protected header: HTMLElement // DOM-элемент шапки страницы
 protected content: HTMLElement // DOM-элемент контента страницы
 ```
@@ -297,6 +292,9 @@ constructor(container: HTMLElement, protected events: IEvents)
 
 Методы:
 ```    
+set counter(value: number) // установить значение счетчика
+set catalog(items: HTMLElement[]) // установить список товаров
+set locked(value: boolean) // установить блокировку обертки
 render(data?: Partial<T>): HTMLElement // отрисовывает содержимое страницы
 ```
 
@@ -306,6 +304,7 @@ render(data?: Partial<T>): HTMLElement // отрисовывает содерж�
 Свойства:
 ```
 protected _close: HTMLElement // кнопка закрытия
+protected _total: HTMLElement // элемент количества синапсов к списанию
 ```
 
 Конструктор:
@@ -315,7 +314,7 @@ constructor(container: HTMLElement, actions: ISuccessActions)
 
 Методы:
 ```
-// нет дополнительных методов, взаимодействие происходит через переданный обработчик на закрытие
+set total(total: number) // установить количество синапсов к списанию
 ```
 
 ## class `Card`
@@ -325,28 +324,59 @@ constructor(container: HTMLElement, actions: ISuccessActions)
 ```
 protected image: HTMLImageElement // элемент изображения товара
 protected title: HTMLElement // элемент заголовка товара
+protected description: HTMLElement // элемент описания товара
 protected price: HTMLElement // элемент цены товара
+protected category: HTMLButtonElement // элемент категории товара
 protected button: HTMLButtonElement // кнопка добавления в корзину
 ```
 
 Конструктор:
 ```
-constructor(container: HTMLElement, protected events: IEvents)
+constructor(container: HTMLElement, actions?: ICardActions)
 ```
 
 Методы:
 ```
-set product(data: IProduct) // устанавливает данные товара 
+set price(price: number | null) // установить цену
+set category(value: string) // установить категорию
+set id(value: string) // установить идентификатор
+set title(value: string) // установить название
+set image(value: string) // установить картинку
+set description(value: string) // установить описание
+set button(isAddOpiration: boolean) // установить кнопку
+addButoonAction(actions?: ICardActions): void // добавить слушатель нажатия на кнопку
 ```
 
+## class `BasketCard`
+Класс BasketCard наследник базового класса Card<IBasketCard>, представляет собой карточку товара в корзине. Он отображает индекс товара и предоставляет функционал для удаления товара.
+
+Свойства:
+```
+index: HTMLElement - элемент, отображающий порядковый номер товара в корзине
+icon: HTMLElement - элемент, представляющий иконку удаления товара
+```
+
+Конструктор:
+```
+constructor(container: HTMLElement, actions?: ICardActions) - принимает контейнер с элементами карточки и опционально объект с действиями для карточки
+```
+
+Методы:
+```
+set index(index: string): void - устанавливает и отображает порядковый номер товара в элементе index.
+```
 
 ## class `Order`
 Класс, наследуемый от `Component`, представляет форму оформления заказа.
 
 Свойства:
 ```
-protected form: HTMLFormElement // форма оформления заказа
-protected submitButton: HTMLButtonElement // кнопка подтверждения заказа
+protected _alts: HTMLButtonElement[] // массив кнопок для выбора метода оплаты
+protected _card: HTMLButtonElement // кнопка выбора оплаты картой
+protected _cash: HTMLButtonElement // кнопка выбора оплаты наличными
+protected _next: HTMLButtonElement // кнопка перехода к следующему этапу оформления заказа
+protected _address: HTMLInputElement // поле ввода адреса доставки
+private isChoosen: boolean // флаг, определяющий, выбран ли метод оплаты
 ```
 
 Конструктор:
@@ -356,9 +386,7 @@ constructor(container: HTMLElement, protected events: IEvents)
 
 Методы:
 ```
-set valid(value: boolean) // устанавливает статус валидации формы
-set errors(value: string) // отображает ошибки формы
-render(data?: Partial<T>): HTMLElement // обновляет состояние формы и возвращает DOM-элемент
+checkAddress(): boolean // проверяет, заполнен ли адрес и выбран ли метод оплаты
 ```
 
 ## class `Contacts`
@@ -368,6 +396,7 @@ render(data?: Partial<T>): HTMLElement // обновляет состояние 
 ```
 protected phone: HTMLElement // DOM-элемент с номером телефона
 protected email: HTMLElement // DOM-элемент с email
+protected button: HTMLButtonElement;
 ```
 
 Конструктор:
@@ -384,74 +413,85 @@ set email(value: string) // устанавливает email
 # Типы данных
 ```ts
 export interface IProduct {
-    id: string;
-    description: string;
-    image: string;
-    title: string;
-    category: string;
-    price: number | null;
+	id: string;
+	description: string;
+	image: string;
+	title: string;
+	category: string;
+	price: number;
 }
 
-export type IBasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
-
-export type PaymentMethod = 'online'| 'card';
-
-export interface IOrderForm {
-    payment: PaymentMethod;
-    email: string;
-    phone: string;
-    address: string;
+export interface IBasket {
+	items: IProduct[];
+	totalPrice: number;
+	addItem(item: IProduct): void;
+	removeItem(itemId: IProduct): void;
+	calculateTotalPrice(): number;
 }
 
-export interface IOrder extends IOrderForm {
-    total: number;
-    items: IBasketItem[]
+export enum PaymentMethod {
+	ONLINE = 'Онлайн',
+	CARD = 'При получении',
 }
 
-export interface IOrderResponse {
-    id: string;
-    total: number;
+export interface IOrder {
+	phone: string;
+	email: string;
+	address: string;
+	payment: PaymentMethod;
+	items: string[];
+	total: number;
 }
 
-export interface IAppState {
-    catalog: IProduct[];
-    basket: IProduct[];
-    preview: string | null;
-    order: IOrder | null;
-    loading: boolean;
-    formErrors: FormErrors;
+export interface IPaymentAndAddressForm {
+	address: string;
+	paymentType: PaymentMethod;
+}
+
+export interface IPaymentPhoneAndEmailForm {
+	phone: string;
+	email: string;
 }
 
 export interface IWebLarekAPI {
-    getProducts(): Promise<IProduct[]>; 
-    getProductById(id: string): Promise<IProduct>; 
-    order(order: IOrder): Promise<IOrderResponse> 
+	getProducts(): Promise<IProduct[]>;
+	getProductById(id: number): Promise<IProduct>;
+	order(order: IOrder): Promise<IOrderResponse>;
 }
 
-export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
+export interface IAppState {
+	products: IProduct[];
+	basket: string[];
+	order: IOrder | null;
+}
+
+export interface IOrderResponse {
+	status: string;
+	totalPrice: number;
+}
 
 export enum Events {
-    CATALOG_CHANGED = "catalog:changed",
-    BASKET_UPDATE = "basket:update",
-    BASKET_CLEARED = "basket:cleared",
-    BASKET_OPEN = "basket:open",
-    BASKET_CLOSE = "basket:close",
-    ORDER_CHANGED = "order:changed",
-    ORDER_SUBMIT = "order:submit",
-    MODAL_OPEN = "modal:open",
-    MODAL_CLOSE = "modal:close",
-    FORM_ERRORS = "formErrors:changed"
+	CATALOG_CHANGED = 'catalog:changed',
+	CATALOG_SHOW = 'catalog:show',
+	CARD_ADD = 'card:add',
+	CARD_DELETE = 'card:delete',
+	BASKET_OPEN = 'basket:open',
+	ORDER_OPEN = 'order:open',
+	ORDER_SUBMIT = 'order:submit',
+	CONTACTS_OPEN = 'contacts:open',
+	MODAL_OPEN = 'modal:open',
+	MODAL_CLOSE = 'modal:close'
 }
 ```
 
 # Список событий
 - catalog:changed - изменились элементы каталога
-- basket:update - изменения в корзине (добавление или удаление)
-- basket:cleared - очистка корзины
+- catalog:show - показ деталей товара
+- card:add - добавление товара в корзину
+- card:delete - удаление товара из корзины
 - basket:open - открытие корзины
-- basket:close - закрытие корзины
-- order:changed - изменилось одно из полей формы заказа
+- order:open - открытие формы заказа
 - order:submit - отправить форму заказа
+- contacts:open - открытие формы контактов
 - modal:open - блокирует прокрутку страницы если открыто модальное окно
 - modal:close - разблокирует прокрутку страницы, когда модальное окно закрывается
-- formErrors:changed - имзенилось состояние валидации формы
