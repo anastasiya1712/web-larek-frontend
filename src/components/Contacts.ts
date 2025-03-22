@@ -15,7 +15,7 @@ export class Contacts extends Form<IPaymentPhoneAndEmailForm> {
 		this._phone = this.container.querySelector('input[name="phone"]');
 
 		[this._email, this._phone].forEach((input) =>
-			input.addEventListener('input', this.toggleButtonState.bind(this))
+			input.addEventListener('input', this.validateInputs.bind(this))
 		);
 
 		container.addEventListener('submit', this.handleSubmit.bind(this));
@@ -29,33 +29,40 @@ export class Contacts extends Form<IPaymentPhoneAndEmailForm> {
 		this._phone.value = phone;
 	}
 
-	private toggleButtonState(): void {
-		this._button.disabled = !this.checkAvailabilityContacts();
+	private validateInputs(): void {
+		const isEmailValid = this.checkEmail();
+		const isPhoneValid = this.checkPhone();
+
+		if (!isEmailValid) {
+			this.errors = 'Заполните корректно email';
+		} else if (!isPhoneValid) {
+			this.errors = 'Заполните корректно номер телефона';
+		} else {
+			this.errors = '';
+		}
+
+		this.toggleButtonState(isEmailValid, isPhoneValid);
+	}
+
+	private toggleButtonState(
+		isEmailValid: boolean,
+		isPhoneValid: boolean
+	): void {
+		this._button.disabled = !(
+			this._phone.value.trim() !== '' &&
+			this._email.value.trim() !== '' &&
+			isPhoneValid &&
+			isEmailValid
+		);
 	}
 
 	private handleSubmit(e: Event): void {
 		e.preventDefault();
-
-		if (!this.checkEmail()) {
-			this.errors = 'Заполните корректно email';
-			return;
-		}
-
-		if (!this.checkPhone()) {
-			this.errors = 'Заполните корректно номер телефона';
-			return;
-		}
-
 		const data: IPaymentPhoneAndEmailForm = {
 			email: this._email.value,
 			phone: this._phone.value,
 		};
-
 		this.events.emit(Events.ORDER_SUBMIT, data);
-	}
-
-	private checkAvailabilityContacts() {
-		return Boolean(this._phone.value.trim() && this._email.value.trim());
 	}
 
 	private checkPhone() {

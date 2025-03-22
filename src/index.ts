@@ -20,14 +20,14 @@ import {
 import { Contacts } from './components/Contacts';
 import { BasketCard } from './components/BasketCard';
 
-const templates = {
-	catalog: ensureElement<HTMLTemplateElement>('#card-catalog'),
-	preview: ensureElement<HTMLTemplateElement>('#card-preview'),
-	contacts: ensureElement<HTMLTemplateElement>('#contacts'),
-	success: ensureElement<HTMLTemplateElement>('#success'),
-	cardBasket: ensureElement<HTMLTemplateElement>('#card-basket'),
-	order: ensureElement<HTMLTemplateElement>('#order'),
-	basket: ensureElement<HTMLTemplateElement>('#basket'),
+const Templates = {
+	CATALOG: ensureElement<HTMLTemplateElement>('#card-catalog'),
+	PREVIEW: ensureElement<HTMLTemplateElement>('#card-preview'),
+	CONTACTS: ensureElement<HTMLTemplateElement>('#contacts'),
+	SUCCESS: ensureElement<HTMLTemplateElement>('#success'),
+	CARDBASKET: ensureElement<HTMLTemplateElement>('#card-basket'),
+	ORDER: ensureElement<HTMLTemplateElement>('#order'),
+	BASKET: ensureElement<HTMLTemplateElement>('#basket'),
 };
 
 const api = new WebLarekAPI(CDN_URL, API_URL);
@@ -35,9 +35,9 @@ const events = new EventEmitter();
 const appData = new AppData({}, events);
 const page = new Page(document.body, events);
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
-const basket = new Basket(cloneTemplate(templates.basket), events);
-const order = new Order(cloneTemplate(templates.order), events);
-const contacts = new Contacts(cloneTemplate(templates.contacts), events);
+const basket = new Basket(cloneTemplate(Templates.BASKET), events);
+const order = new Order(cloneTemplate(Templates.ORDER), events);
+const contacts = new Contacts(cloneTemplate(Templates.CONTACTS), events);
 
 api.getProducts().then(appData.setProducts.bind(appData)).catch(alert);
 
@@ -54,7 +54,7 @@ events.on(Events.MODAL_CLOSE, () => (page.locked = false));
 
 function renderCatalog(): void {
 	page.catalog = appData.products.map((product) =>
-		new Card(cloneTemplate(templates.catalog), {
+		new Card(cloneTemplate(Templates.CATALOG), {
 			onClick: () => {
 				events.emit(Events.CATALOG_SHOW, product);
 			},
@@ -63,7 +63,7 @@ function renderCatalog(): void {
 }
 
 function showProductPreview(product: IProduct): void {
-	const card = new Card(cloneTemplate(templates.preview), {
+	const card = new Card(cloneTemplate(Templates.PREVIEW), {
 		onClick: () => {
 			card.button = true;
 			card.addButoonAction({
@@ -112,7 +112,7 @@ function openBasket(): void {
 	});
 	basket.total = appData.getTotal();
 	basket.items = appData.getAddedProducts().map((product, i) => {
-		const cardBasket = new BasketCard(cloneTemplate(templates.cardBasket), {
+		const cardBasket = new BasketCard(cloneTemplate(Templates.CARDBASKET), {
 			onClick: () => events.emit(Events.CARD_DELETE, product),
 		});
 		cardBasket.index = (i + 1).toString();
@@ -160,7 +160,7 @@ function submitOrder(data: IPaymentPhoneAndEmailForm): void {
 		appData.order.items = [];
 		page.counter = 0;
 
-		const success = new Success(cloneTemplate(templates.success), {
+		const success = new Success(cloneTemplate(Templates.SUCCESS), {
 			onClick: () => {
 				modal.close();
 				events.emit(Events.CATALOG_CHANGED);

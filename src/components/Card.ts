@@ -1,4 +1,5 @@
 import { IProduct } from '../types';
+import { CATEGORY_CLASS_MAP } from '../utils/constants';
 import { bem, ensureElement } from '../utils/utils';
 import { Component } from './base/Component';
 
@@ -18,14 +19,6 @@ export class Card<T> extends Component<ICard<T>> {
 	protected _button: HTMLButtonElement;
 	protected _category: HTMLButtonElement;
 	protected _price: HTMLElement;
-
-	private categoryClassMap: Record<string, string> = {
-		другое: 'other',
-		'софт-скил': 'soft',
-		'хард-скил': 'hard',
-		дополнительное: 'additional',
-		кнопка: 'button',
-	};
 
 	constructor(container: HTMLElement, actions?: ICardActions) {
 		super(container);
@@ -57,7 +50,7 @@ export class Card<T> extends Component<ICard<T>> {
 
 	set category(value: string) {
 		this.setText(this._category, value);
-		const className = this.categoryClassMap[value] ?? 'default';
+		const className = CATEGORY_CLASS_MAP[value] ?? 'default';
 		this._category.className = `card__category ${
 			bem('card', 'category', className).name
 		}`;
