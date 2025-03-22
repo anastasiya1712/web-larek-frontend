@@ -52,12 +52,14 @@ export class Order extends Form<IPaymentAndAddressForm> {
 		this._next.addEventListener('click', () => {
 			const order: IPaymentAndAddressForm = {
 				address: this._address.value,
-				paymentType:
-					'button_alt-active' in this._card.classList.keys()
-						? PaymentMethod.ONLINE
-						: PaymentMethod.CARD,
+				paymentType: this._card.classList.contains('button_alt-active')
+					? PaymentMethod.ONLINE
+					: PaymentMethod.CARD,
 			};
 			events.emit(Events.CONTACTS_OPEN, order);
+			this._card.classList.remove('button_alt-active');
+			this._cash.classList.remove('button_alt-active');
+			this._next.setAttribute('disabled', '');
 		});
 	}
 
