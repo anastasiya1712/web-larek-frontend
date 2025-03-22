@@ -1,4 +1,4 @@
-import { Events, IPaymentAndAddressForm, PaymentMethod } from '../types';
+import { Events, IFormState, IPaymentAndAddressForm, PaymentMethod } from '../types';
 import { ensureAllElements, ensureElement } from '../utils/utils';
 import { IEvents } from './base/Events';
 import { Form } from './common/Form';
@@ -57,17 +57,26 @@ export class Order extends Form<IPaymentAndAddressForm> {
 					: PaymentMethod.CARD,
 			};
 			events.emit(Events.CONTACTS_OPEN, order);
-			this._card.classList.remove('button_alt-active');
-			this._cash.classList.remove('button_alt-active');
-			this._next.setAttribute('disabled', '');
+			this.clearForm();
 		});
 	}
 
 	set address(address: string) {
 		this._address.value = address;
 	}
+	
+	private clearForm() {
+		this._card.classList.remove('button_alt-active');
+		this._cash.classList.remove('button_alt-active');
+		this._next.setAttribute('disabled', '');
+	}
 
 	checkAddress() {
 		return this._address.value != '' && this.isChoosen;
+	}
+
+	render(state: IPaymentAndAddressForm & IFormState) {
+		this.clearForm();
+		return super.render(state);
 	}
 }

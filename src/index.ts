@@ -133,6 +133,7 @@ function openOrder(): void {
 			valid: false,
 			errors: [],
 			address: '',
+			paymentType: PaymentMethod.ONLINE
 		}),
 	});
 }

@@ -29,6 +29,11 @@ export interface IOrder {
 	total: number;
 }
 
+export interface IFormState {
+	valid: boolean;
+	errors: string[];
+}
+
 export interface IPaymentAndAddressForm {
 	address: string;
 	paymentType: PaymentMethod;

@@ -386,6 +386,7 @@ constructor(container: HTMLElement, protected events: IEvents)
 
 Методы:
 ```
+set address(address: string) // установить адрес
 checkAddress(): boolean // проверяет, заполнен ли адрес и выбран ли метод оплаты
 ```
 
