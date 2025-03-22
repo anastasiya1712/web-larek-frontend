@@ -130,9 +130,9 @@ function openBasket(): void {
 function openOrder(): void {
 	modal.render({
 		content: order.render({
-			paymentType: PaymentMethod.ONLINE,
 			valid: false,
 			errors: [],
+			address: '',
 		}),
 	});
 }
@@ -144,8 +144,8 @@ function openContacts(data: IPaymentAndAddressForm): void {
 	});
 	modal.render({
 		content: contacts.render({
-			errors: [],
 			valid: false,
+			errors: [],
 			email: '',
 			phone: '',
 		}),

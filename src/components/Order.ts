@@ -61,6 +61,10 @@ export class Order extends Form<IPaymentAndAddressForm> {
 		});
 	}
 
+	set address(address: string) {
+		this._address.value = address;
+	}
+
 	checkAddress() {
 		return this._address.value != '' && this.isChoosen;
 	}

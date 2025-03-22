@@ -63,6 +63,7 @@ export class Contacts extends Form<IPaymentPhoneAndEmailForm> {
 			phone: this._phone.value,
 		};
 		this.events.emit(Events.ORDER_SUBMIT, data);
+		this.toggleButtonState(false, false);
 	}
 
 	private checkPhone() {
